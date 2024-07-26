@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  db:
+    build:
+      context: ./postgres
+    image: enzomb/postgres_db:latest
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
