@@ -1,6 +1,6 @@
-version: '3.8'
+version: '3.2'
 services:
-  db:
+  postgres:
     build:
       context: ./postgres
     image: enzomb/postgres_db:latest
@@ -9,3 +9,6 @@ services:
       - "5432:5432"
     networks:
       - backend
+networks:
+  backend:
+    driver: "bridge"
