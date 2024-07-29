@@ -1,23 +1,22 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateTaskDto {
-  id: string;
+  id: number;
 
   @IsNotEmpty({ message: 'The field title must not be empty' })
   title: string;
 
   @IsString()
   @IsOptional()
-  description: string;
+  description: string | null;
+
+  @IsNotEmpty({ message: 'The field completed must not be empty' })
+  completed: boolean;
+
+  @IsNotEmpty({ message: 'The field createdAt must not be empty' })
+  createdAt: Date;
 
   @IsNumber()
   @IsNotEmpty({ message: 'The field pomodoroCount must not be empty' })
-  @Min(1, { message: 'The field pomodoroCount must be at least 1' })
   pomodoroCount: number;
 }
