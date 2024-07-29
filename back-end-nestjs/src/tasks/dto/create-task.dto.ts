@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 
 export class CreateTaskDto {
-  id: string;
+  id: number;
 
   @IsNotEmpty({ message: 'The field title must not be empty' })
   title: string;
