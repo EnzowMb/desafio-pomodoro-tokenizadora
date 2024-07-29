@@ -1,9 +1,9 @@
 import {
+  IsDate,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
-  Min,
 } from 'class-validator';
 
 export class CreateTaskDto {
@@ -16,8 +16,14 @@ export class CreateTaskDto {
   @IsOptional()
   description: string;
 
+  @IsNotEmpty({ message: 'The field completed must not be empty' })
+  completed: boolean;
+
+  @IsDate()
+  @IsNotEmpty({ message: 'The field createdAt must not be empty' })
+  createdAt: Date;
+
   @IsNumber()
   @IsNotEmpty({ message: 'The field pomodoroCount must not be empty' })
-  @Min(1, { message: 'The field pomodoroCount must be at least 1' })
   pomodoroCount: number;
 }
