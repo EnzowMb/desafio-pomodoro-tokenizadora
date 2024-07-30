@@ -4,11 +4,11 @@
     <div>{{ formattedTime }}</div>
     <div>Total de tempo em minutos: {{ totalMinutes }}</div>
     <div>Total de Pomodoros: {{ totalPomodoros }}</div>
-    <button @click="startTimer">Start</button>
-    <button @click="stopTimer">Stop</button>
-    <button @click="resetTimer">Reset</button>
+    <button @click="startTimer">Começar</button>
+    <button @click="pauseTimer">Pausar</button>
+    <button @click="finishTimer">Finalizar</button>
   </div>
-</template>
+</template>s
 
 <script lang="ts">
 import { ref, computed, defineComponent } from 'vue';
@@ -53,15 +53,17 @@ export default defineComponent({
       }, 1000);
     };
 
-    const stopTimer = () => {
+    const pauseTimer = () => {
       if (interval) {
         clearInterval(interval);
         interval = undefined;
       }
     };
 
-    const resetTimer = () => {
-      stopTimer();
+    const finishTimer = () => {
+      console.log(pomodoroCount.value)
+
+      pauseTimer();
       hours.value = 0;
       minutes.value = 0;
       seconds.value = 0;
@@ -70,7 +72,7 @@ export default defineComponent({
     };
 
     const totalMinutes = computed(() => {
-      return hours.value * 60 + minutes.value + seconds.value / 60;
+      return (hours.value * 60 + minutes.value + seconds.value / 60).toFixed(2);
     });
 
     const calculatePomodoros = () => {
@@ -80,8 +82,8 @@ export default defineComponent({
       while (time >= pomodoroTime) {
         time -= pomodoroTime;
         pomodoros++;
-        
-        if (pomodoros % 4 === 0) {
+
+        if (pomodoros % 3 === 0) {
           time -= longBreakTime;
         } else {
           time -= shortBreakTime;
@@ -99,8 +101,8 @@ export default defineComponent({
       totalPomodoros,
       totalMinutes,
       startTimer,
-      stopTimer,
-      resetTimer
+      pauseTimer,
+      finishTimer
     };
   }
 });
