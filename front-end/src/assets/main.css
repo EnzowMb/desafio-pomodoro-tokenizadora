@@ -1,0 +1,42 @@
+:root {
+  --ochre: #d1451e;
+  --coral: #f0633c;
+  --light-coral: #ffdbd1;
+  --cream: #fffaf3;
+  --dark-green: #263a29;
+  --medium-green: #3d6d4a;
+  --gray: #444444;
+  --light-gray: #efefef;
+  --white: #fff;
+
+  --default-font-family: Nunito Sans, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+button {
+  border: 0;
+  background-color: inherit;
+  font: inherit;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--cream);
+  font-family: var(--default-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  background: var(--dark-green, #263a29);
+}
