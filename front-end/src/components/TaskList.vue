@@ -43,27 +43,30 @@
           <th>Pomodoros usados</th>
           <th>Status</th>
           <th class="has-text-centered">Timer</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="task in tasks" :key="task.id">
-          <td>{{ task.title }}</td>
-          <td>{{ task.description }}</td>
+          <td v-html="wrapText(task.title, 20)"></td>
+          <td v-html="wrapText(task.description, 20)"></td>
           <td>{{ task.pomodoroCount }}</td>
           <td>
             <h1>{{ task.completed ? 'Finalizada' : 'Não finalizada' }}</h1>
+          </td>
+          <td>
+            <Timer :taskId="task.id" :onTaskFinished="fetchTasks" />
+          </td>
+          <td class="has-text-centered">
             <button
               class="button is-small is-danger mt-3"
               @click="deleteTask(task.id)"
             >
-            <span class="icon">
-              <i class="fa-solid fa-trash"></i>
-            </span>
-            <span>Remover</span>
+              <span class="icon">
+                <i class="fa-solid fa-trash"></i>
+              </span>
+              <span>Remover</span>
             </button>
-          </td>
-          <td>
-            <Timer :taskId="task.id" :onTaskFinished="fetchTasks" />
           </td>
         </tr>
       </tbody>
@@ -107,7 +110,7 @@ export default defineComponent({
         completed: false,
         createdAt: currentDate,
         pomodoroCount: 0,
-      }
+      };
 
       await axios.post("http://localhost:3000/tasks", task);
       fetchTasks();
@@ -116,6 +119,11 @@ export default defineComponent({
     const deleteTask = async (id: number) => {
       await axios.delete(`http://localhost:3000/tasks/${id}`);
       fetchTasks();
+    };
+
+    const wrapText = (text: string, maxLength: number): string => {
+      const regex = new RegExp(`.{1,${maxLength}}`, 'g');
+      return text.match(regex)?.join('<br>') || text;
     };
 
     onMounted(() => {
@@ -129,6 +137,7 @@ export default defineComponent({
       addTask,
       deleteTask,
       fetchTasks,
+      wrapText,
     };
   },
 });
