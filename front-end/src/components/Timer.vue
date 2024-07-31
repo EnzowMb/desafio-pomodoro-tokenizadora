@@ -1,14 +1,32 @@
 <template>
-  <div>
-    <h1>Pomodoro Timer</h1>
-    <div>{{ formattedTime }}</div>
-    <div>Total de tempo em minutos: {{ totalMinutes }}</div>
-    <div>Total de Pomodoros: {{ totalPomodoros }}</div>
-    <button @click="startTimer">Começar</button>
-    <button @click="pauseTimer">Pausar</button>
-    <button @click="finishTimer">Finalizar</button>
+  <div class="section">
+    <div class="container has-text-centered">
+      <div class="title is-4">{{ formattedTime }}</div>
+      <div class="subtitle is-6 mt-4">Total de tempo em minutos: {{ totalMinutes }}</div>
+      <div class="subtitle is-6 mt-4">Total de Pomodoros: {{ totalPomodoros }}</div>
+      <div class="buttons are-medium is-centered">
+        <button class="button is-primary" @click="startTimer">
+          <span class="icon">
+            <i class="fas fa-play"></i>
+          </span>
+          <span>Começar</span>
+        </button>
+        <button class="button is-warning" @click="pauseTimer">
+          <span class="icon">
+            <i class="fa-solid fa-pause"></i>
+          </span>
+          <span>Pausar</span>
+        </button>
+        <button class="button is-danger" @click="finishTimer">
+          <span class="icon">
+            <i class="fas fa-stop"></i>
+          </span>
+          <span>Finalizar</span>
+        </button>
+      </div>
+    </div>
   </div>
-</template>s
+</template>
 
 <script lang="ts">
 import { ref, computed, defineComponent } from 'vue';
@@ -109,18 +127,17 @@ export default defineComponent({
 </script>
 
 <style scoped>
-h1 {
-  font-size: 2em;
+span {
+  padding: 3px;
 }
 
 div {
-  font-size: 1.5em;
-  margin-bottom: 1em;
+  font-size: 1em;
 }
 
 button {
   margin-right: 1em;
   padding: 0.5em 1em;
-  font-size: 1em;
+  font-size: 0.9em;
 }
 </style>

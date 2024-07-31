@@ -1,7 +1,19 @@
 <template>
-  <div>
-    <form @submit.prevent="addTask">
-      <div class="field">
+  <div class="box">
+    <form @submit.prevent="addTask" class="rows">
+      <h1 class="field column">Criar Tarefa</h1>
+      <div class="field column is-7">
+        <label class="label">Titulo</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            v-model="title"
+            placeholder="Titulo da tarefa"
+          />
+        </div>
+      </div>
+      <div class="field column is-7">
         <label class="label">Descrição</label>
         <div class="control">
           <input
@@ -12,52 +24,42 @@
           />
         </div>
       </div>
-      <div class="field">
-        <label class="label">Quantidade de Pomodoros</label>
-        <div class="control">
-          <input
-            class="input"
-            type="number"
-            v-model="pomodoros"
-            placeholder="Quantidade de Pomodoros"
-          />
-        </div>
-      </div>
-      <div class="control">
-        <button class="button is-primary">Adicionar Tarefa</button>
+      <div class="control column is-8">
+        <button class="button">
+          <span>Adicionar Tarefa</span> 
+          <span class="icon">
+            <i class="fa-solid fa-arrow-right"></i>
+          </span>
+        </button>
       </div>
     </form>
     <hr />
     <table class="table is-fullwidth">
       <thead>
         <tr>
+          <th>Titulo</th>
           <th>Descrição</th>
           <th>Pomodoros</th>
           <th>Status</th>
-          <th>Ações</th>
+          <th>Timer</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="task in tasks" :key="task.id">
+          <td>{{ task.title }}</td>
           <td>{{ task.description }}</td>
           <td>{{ task.pomodoroCount }}</td>
-          <td>{{ task.completed }}</td>
           <td>
-            <button class="button is-small is-info" @click="startTask(task.id)">
-              Iniciar
-            </button>
-            <button
-              class="button is-small is-success"
-              @click="finishTask(task.id)"
-            >
-              Finalizar
-            </button>
+            <h1>{{ task.completed ? 'Finalizada' : 'Não finalizada' }}</h1>
             <button
               class="button is-small is-danger"
               @click="deleteTask(task.id)"
             >
               Remover
             </button>
+          </td>
+          <td>
+            <Timer />
           </td>
         </tr>
       </tbody>
@@ -67,6 +69,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
+import Timer from './Timer.vue';
 import axios from "axios";
 
 interface Task {
@@ -79,24 +82,32 @@ interface Task {
 }
 
 export default defineComponent({
+  components: {
+    Timer,
+  },
   setup() {
     const tasks = ref<Task[]>([]);
     const description = ref("");
-    const pomodoros = ref(1);
+    const title = ref("");
 
     const fetchTasks = async () => {
       const response = await axios.get("http://localhost:3000/tasks");
+      console.log(response.data);
       tasks.value = response.data;
     };
 
     const addTask = async () => {
-      const response = await axios.post("http://localhost:3000/tasks", {
+      const currentDate = new Date().toISOString();
+      const task = {
+        title: title.value,
         description: description.value,
-        pomodoros: pomodoros.value,
-      });
-      tasks.value.push(response.data);
-      description.value = "";
-      pomodoros.value = 1;
+        completed: false,
+        createdAt: currentDate,
+        pomodoroCount: 0,
+      }
+
+      await axios.post("http://localhost:3000/tasks", task);
+      fetchTasks();
     };
 
     const startTask = async (id: number) => {
@@ -120,8 +131,8 @@ export default defineComponent({
 
     return {
       tasks,
+      title,
       description,
-      pomodoros,
       addTask,
       startTask,
       finishTask,
