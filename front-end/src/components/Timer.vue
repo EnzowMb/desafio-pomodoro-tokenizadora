@@ -29,12 +29,32 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent } from 'vue';
+import { ref, computed, defineComponent, type PropType } from 'vue';
+import axios from "axios";
+
+interface Task {
+  id: number;
+  title: string;
+  description: string;
+  pomodoroCount: number;
+  completed: boolean;
+  createdAt: Date;
+}
 
 export default defineComponent({
   name: 'PomodoroTimer',
+  props: {
+    taskId: {
+      type: Number as PropType<number>,
+      required: true,
+    },
+    onTaskFinished: {
+      type: Function as PropType<() => void>,
+      required: true,
+    },
+  },
 
-  setup() {
+  setup(props) {
     const hours = ref(0);
     const minutes = ref(0);
     const seconds = ref(0);
@@ -78,8 +98,13 @@ export default defineComponent({
       }
     };
 
-    const finishTimer = () => {
+    const finishTimer = async () => {
       console.log(pomodoroCount.value)
+
+      await axios.put(`http://localhost:3000/tasks/${props.taskId}`, {
+        pomodoroCount: pomodoroCount.value,
+        completed: true,
+      });
 
       pauseTimer();
       hours.value = 0;
@@ -87,6 +112,8 @@ export default defineComponent({
       seconds.value = 0;
       totalTime.value = 0;
       pomodoroCount.value = 0;
+
+      props.onTaskFinished();
     };
 
     const totalMinutes = computed(() => {

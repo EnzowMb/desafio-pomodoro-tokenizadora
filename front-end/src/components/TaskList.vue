@@ -59,7 +59,7 @@
             </button>
           </td>
           <td>
-            <Timer />
+            <Timer :taskId="task.id" :onTaskFinished="fetchTasks" />
           </td>
         </tr>
       </tbody>
@@ -110,16 +110,6 @@ export default defineComponent({
       fetchTasks();
     };
 
-    const startTask = async (id: number) => {
-      await axios.put(`http://localhost:3000/tasks/${id}/start`);
-      fetchTasks();
-    };
-
-    const finishTask = async (id: number) => {
-      await axios.put(`http://localhost:3000/tasks/${id}/finish`);
-      fetchTasks();
-    };
-
     const deleteTask = async (id: number) => {
       await axios.delete(`http://localhost:3000/tasks/${id}`);
       fetchTasks();
@@ -134,14 +124,9 @@ export default defineComponent({
       title,
       description,
       addTask,
-      startTask,
-      finishTask,
       deleteTask,
+      fetchTasks,
     };
   },
 });
 </script>
-
-<style scoped>
-/* Custom styles */
-</style>
