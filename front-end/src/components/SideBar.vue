@@ -18,7 +18,6 @@
   <style scoped>
   header {
     padding: 1rem;
-    background: var(--background-primary);
     width: 100%;
     height: 100%;
   }
