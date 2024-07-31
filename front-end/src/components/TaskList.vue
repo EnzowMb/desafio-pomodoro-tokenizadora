@@ -22,7 +22,6 @@
             type="text"
             v-model="description"
             placeholder="Descrição da tarefa"
-            required
           />
         </div>
       </div>
