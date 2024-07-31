@@ -1,7 +1,20 @@
 <template>
-  <div>
-    <form @submit.prevent="addTask">
-      <div class="field">
+  <div class="box">
+    <form @submit.prevent="addTask" class="rows">
+      <h1 class="field column">Criar Tarefa</h1>
+      <div class="field column is-7">
+        <label class="label">Titulo</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            v-model="title"
+            placeholder="Titulo da tarefa"
+            required
+          />
+        </div>
+      </div>
+      <div class="field column is-7">
         <label class="label">Descrição</label>
         <div class="control">
           <input
@@ -9,55 +22,49 @@
             type="text"
             v-model="description"
             placeholder="Descrição da tarefa"
+            required
           />
         </div>
       </div>
-      <div class="field">
-        <label class="label">Quantidade de Pomodoros</label>
-        <div class="control">
-          <input
-            class="input"
-            type="number"
-            v-model="pomodoros"
-            placeholder="Quantidade de Pomodoros"
-          />
-        </div>
-      </div>
-      <div class="control">
-        <button class="button is-primary">Adicionar Tarefa</button>
+      <div class="control column is-8">
+        <button class="button">
+          <span>Adicionar Tarefa</span> 
+          <span class="icon">
+            <i class="fa-solid fa-arrow-right"></i>
+          </span>
+        </button>
       </div>
     </form>
     <hr />
     <table class="table is-fullwidth">
       <thead>
         <tr>
+          <th>Titulo</th>
           <th>Descrição</th>
-          <th>Pomodoros</th>
+          <th>Pomodoros usados</th>
           <th>Status</th>
-          <th>Ações</th>
+          <th class="has-text-centered">Timer</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="task in tasks" :key="task.id">
+          <td>{{ task.title }}</td>
           <td>{{ task.description }}</td>
           <td>{{ task.pomodoroCount }}</td>
-          <td>{{ task.completed }}</td>
           <td>
-            <button class="button is-small is-info" @click="startTask(task.id)">
-              Iniciar
-            </button>
+            <h1>{{ task.completed ? 'Finalizada' : 'Não finalizada' }}</h1>
             <button
-              class="button is-small is-success"
-              @click="finishTask(task.id)"
-            >
-              Finalizar
-            </button>
-            <button
-              class="button is-small is-danger"
+              class="button is-small is-danger mt-3"
               @click="deleteTask(task.id)"
             >
-              Remover
+            <span class="icon">
+              <i class="fa-solid fa-trash"></i>
+            </span>
+            <span>Remover</span>
             </button>
+          </td>
+          <td>
+            <Timer :taskId="task.id" :onTaskFinished="fetchTasks" />
           </td>
         </tr>
       </tbody>
@@ -67,6 +74,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
+import Timer from './Timer.vue';
 import axios from "axios";
 
 interface Task {
@@ -79,10 +87,13 @@ interface Task {
 }
 
 export default defineComponent({
+  components: {
+    Timer,
+  },
   setup() {
     const tasks = ref<Task[]>([]);
     const description = ref("");
-    const pomodoros = ref(1);
+    const title = ref("");
 
     const fetchTasks = async () => {
       const response = await axios.get("http://localhost:3000/tasks");
@@ -90,22 +101,16 @@ export default defineComponent({
     };
 
     const addTask = async () => {
-      const response = await axios.post("http://localhost:3000/tasks", {
+      const currentDate = new Date().toISOString();
+      const task = {
+        title: title.value,
         description: description.value,
-        pomodoros: pomodoros.value,
-      });
-      tasks.value.push(response.data);
-      description.value = "";
-      pomodoros.value = 1;
-    };
+        completed: false,
+        createdAt: currentDate,
+        pomodoroCount: 0,
+      }
 
-    const startTask = async (id: number) => {
-      await axios.put(`http://localhost:3000/tasks/${id}/start`);
-      fetchTasks();
-    };
-
-    const finishTask = async (id: number) => {
-      await axios.put(`http://localhost:3000/tasks/${id}/finish`);
+      await axios.post("http://localhost:3000/tasks", task);
       fetchTasks();
     };
 
@@ -120,17 +125,12 @@ export default defineComponent({
 
     return {
       tasks,
+      title,
       description,
-      pomodoros,
       addTask,
-      startTask,
-      finishTask,
       deleteTask,
+      fetchTasks,
     };
   },
 });
 </script>
-
-<style scoped>
-/* Custom styles */
-</style>
