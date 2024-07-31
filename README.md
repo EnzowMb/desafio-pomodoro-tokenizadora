@@ -58,6 +58,10 @@ git clone https://github.com/EnzowMb/desafio-pomodoro-tokenizadora.git
     ```
     docker-compose up
     ```
+    OBS: O docker desktop deve estar rodando
+    
+    ![image](https://github.com/user-attachments/assets/8aa5059c-aeb7-4eee-ba0e-bd0e546c10e2)
+
     
 - Exemplos:
 
