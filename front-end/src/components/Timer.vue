@@ -1,9 +1,10 @@
 <template>
   <div class="section">
     <div class="container has-text-centered">
-      <div class="title is-4">{{ formattedTime }}</div>
-      <div class="subtitle is-6 mt-4">Total de tempo em minutos: {{ totalMinutes }}</div>
-      <div class="subtitle is-6 mt-4">Total de Pomodoros: {{ totalPomodoros }}</div>
+      <div class="title is-4">{{ formattedTime }} <i class="fa-regular fa-clock"></i></div>
+      <div class="subtitle is-6 mt-4">
+        Total de Pomodoros: {{ totalPomodoros }} 
+      </div>
       <div class="buttons are-medium is-centered">
         <button class="button is-primary" @click="startTimer">
           <span class="icon">
@@ -29,17 +30,8 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, type PropType } from 'vue';
+import { ref, computed, defineComponent, type PropType, watch } from 'vue';
 import axios from "axios";
-
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  pomodoroCount: number;
-  completed: boolean;
-  createdAt: Date;
-}
 
 export default defineComponent({
   name: 'PomodoroTimer',
@@ -65,6 +57,13 @@ export default defineComponent({
     let pomodoroCount = ref(0);
     let interval: number | undefined;
 
+    const iconVisible = ref({
+      start: false,
+      half: false,
+      end: false,
+      full: false,
+    } as { [key: string]: boolean });
+
     const formattedTime = computed(() => {
       const pad = (num: number) => String(num).padStart(2, '0');
       return `${pad(hours.value)}:${pad(minutes.value)}:${pad(seconds.value)}`;
@@ -74,8 +73,27 @@ export default defineComponent({
       return pomodoroCount.value;
     });
 
+    const showIcons = () => {
+      iconVisible.value = { start: false, half: false, end: false, full: false }; // Resetar ícones
+
+      const icons = ['start', 'half', 'end', 'full'];
+      let index = 0;
+
+      const interval = setInterval(() => {
+        if (index < icons.length) {
+          iconVisible.value[icons[index]] = true;
+          index++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 1000);
+    };
+
     const startTimer = () => {
       if (interval) return;
+
+      showIcons();
+
       interval = setInterval(() => {
         seconds.value++;
         totalTime.value++;
@@ -147,7 +165,7 @@ export default defineComponent({
       totalMinutes,
       startTimer,
       pauseTimer,
-      finishTimer
+      finishTimer,
     };
   }
 });

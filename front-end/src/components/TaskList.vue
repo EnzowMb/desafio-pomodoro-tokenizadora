@@ -10,6 +10,7 @@
             type="text"
             v-model="title"
             placeholder="Titulo da tarefa"
+            required
           />
         </div>
       </div>
@@ -21,6 +22,7 @@
             type="text"
             v-model="description"
             placeholder="Descrição da tarefa"
+            required
           />
         </div>
       </div>
@@ -39,9 +41,9 @@
         <tr>
           <th>Titulo</th>
           <th>Descrição</th>
-          <th>Pomodoros</th>
+          <th>Pomodoros usados</th>
           <th>Status</th>
-          <th>Timer</th>
+          <th class="has-text-centered">Timer</th>
         </tr>
       </thead>
       <tbody>
@@ -52,10 +54,13 @@
           <td>
             <h1>{{ task.completed ? 'Finalizada' : 'Não finalizada' }}</h1>
             <button
-              class="button is-small is-danger"
+              class="button is-small is-danger mt-3"
               @click="deleteTask(task.id)"
             >
-              Remover
+            <span class="icon">
+              <i class="fa-solid fa-trash"></i>
+            </span>
+            <span>Remover</span>
             </button>
           </td>
           <td>
@@ -92,7 +97,6 @@ export default defineComponent({
 
     const fetchTasks = async () => {
       const response = await axios.get("http://localhost:3000/tasks");
-      console.log(response.data);
       tasks.value = response.data;
     };
 
