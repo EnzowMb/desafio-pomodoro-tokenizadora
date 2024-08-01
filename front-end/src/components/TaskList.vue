@@ -1,7 +1,7 @@
 <template>
   <div class="box">
-    <form @submit.prevent="addTask" class="rows">
-      <h1 class="field column">Criar Tarefa</h1>
+    <form @submit.prevent="submitForm" class="rows">
+      <h1 class="field column">{{ isEditing ? 'Atualizar Tarefa' : 'Criar Tarefa' }}</h1>
       <div class="field column is-7">
         <label class="label">Titulo</label>
         <div class="control">
@@ -26,11 +26,19 @@
         </div>
       </div>
       <div class="control column is-8">
-        <button class="button">
-          <span>Adicionar Tarefa</span> 
+        <button class="button is-light">
+          <span>{{ isEditing ? 'Atualizar Tarefa' : 'Adicionar Tarefa' }}</span>
           <span class="icon">
             <i class="fa-solid fa-arrow-right"></i>
           </span>
+        </button>
+        <button 
+          v-if="isEditing" 
+          type="button" 
+          class="button is-light ml-2" 
+          @click="resetForm"
+        >
+          Cancelar
         </button>
       </div>
     </form>
@@ -49,7 +57,7 @@
       <tbody>
         <tr v-for="task in tasks" :key="task.id">
           <td v-html="wrapText(task.title, 20)"></td>
-          <td v-html="wrapText(task.description, 20)"></td>
+          <td v-html="wrapText(task.description, 30)"></td>
           <td>{{ task.pomodoroCount }}</td>
           <td>
             <h1>{{ task.completed ? 'Finalizada' : 'Não finalizada' }}</h1>
@@ -57,7 +65,16 @@
           <td>
             <Timer :taskId="task.id" :onTaskFinished="fetchTasks" />
           </td>
-          <td class="has-text-centered">
+          <td class="buttons">
+            <button
+              class="button is-small is-link mt-3"
+              @click="editTask(task)"
+            >
+              <span class="icon">
+                <i class="fa-solid fa-pencil"></i>
+              </span>
+              <span>Editar</span>
+            </button>
             <button
               class="button is-small is-danger mt-3"
               @click="deleteTask(task.id)"
@@ -96,6 +113,8 @@ export default defineComponent({
     const tasks = ref<Task[]>([]);
     const description = ref("");
     const title = ref("");
+    const isEditing = ref(false);
+    const taskToEdit = ref<Task | null>(null);
 
     const fetchTasks = async () => {
       const response = await axios.get("http://localhost:3000/tasks");
@@ -114,11 +133,48 @@ export default defineComponent({
 
       await axios.post("http://localhost:3000/tasks", task);
       fetchTasks();
+      resetForm();
+    };
+
+    const updateTask = async (id: number | undefined) => {
+      if (id === undefined) return;
+
+      const updatedTask = {
+        ...taskToEdit.value,
+        title: title.value,
+        description: description.value,
+      };
+
+      await axios.put(`http://localhost:3000/tasks/${id}`, updatedTask);
+      fetchTasks();
+      resetForm();
     };
 
     const deleteTask = async (id: number) => {
       await axios.delete(`http://localhost:3000/tasks/${id}`);
       fetchTasks();
+    };
+
+    const editTask = (task: Task) => {
+      isEditing.value = true;
+      taskToEdit.value = task;
+      title.value = task.title;
+      description.value = task.description;
+    };
+
+    const resetForm = () => {
+      isEditing.value = false;
+      taskToEdit.value = null;
+      title.value = "";
+      description.value = "";
+    };
+
+    const submitForm = () => {
+      if (isEditing.value && taskToEdit.value) {
+        updateTask(taskToEdit.value.id);
+      } else {
+        addTask();
+      }
     };
 
     const wrapText = (text: string, maxLength: number): string => {
@@ -134,8 +190,14 @@ export default defineComponent({
       tasks,
       title,
       description,
+      isEditing,
+      taskToEdit,
       addTask,
+      updateTask,
       deleteTask,
+      editTask,
+      resetForm,
+      submitForm,
       fetchTasks,
       wrapText,
     };
