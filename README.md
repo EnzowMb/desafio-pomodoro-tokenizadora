@@ -29,6 +29,7 @@ ORM utilizada:
 Prisma
 ```
 
+
 [![My Skills](https://skillicons.dev/icons?i=prisma)](https://skillicons.dev)
 
 Frontend:
@@ -119,7 +120,7 @@ Para testar as rotas, recomendo o Postman!
 [![My Skills](https://skillicons.dev/icons?i=postman)](https://skillicons.dev)
 
 Segue em anexo um arquivo para testes:
-[POMODORO TASKS.postman_collection.json](https://github.com/user-attachments/files/16449095/POMODORO.TASKS.postman_collection.json)
+[POMODORO TASKS.postman_collection.json](https://github.com/user-attachments/files/16450128/POMODORO.TASKS.postman_collection.json)
 
 ### Parte 3 - Rodando o Front-end
 
@@ -131,6 +132,7 @@ Segue em anexo um arquivo para testes:
   - Execute o comando para instalar as dependencias:
     ```
     npm install
+
     ```
   - Execute o seguinte comando para rodar a aplicação:
     ```
