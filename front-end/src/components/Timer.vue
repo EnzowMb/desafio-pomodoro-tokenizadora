@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, type PropType, watch } from 'vue';
+import { ref, computed, defineComponent, type PropType } from 'vue';
 import axios from "axios";
 
 export default defineComponent({
@@ -95,6 +95,7 @@ export default defineComponent({
       await axios.put(`http://localhost:3000/tasks/${props.taskId}`, {
         pomodoroCount: pomodoroCount.value,
         completed: true,
+        totalTime: totalSeconds.value,
       }).catch((e) => {
         alert('Erro ao finalizar tarefa: ' + e);
       });
@@ -109,8 +110,8 @@ export default defineComponent({
       props.onTaskFinished();
     };
 
-    const totalMinutes = computed(() => {
-      return (hours.value * 60 + minutes.value + seconds.value / 60).toFixed(2);
+    const totalSeconds = computed(() => {
+      return (hours.value * 3600 + minutes.value * 60 + seconds.value);
     });
 
     const calculatePomodoros = () => {
@@ -137,7 +138,7 @@ export default defineComponent({
       seconds,
       formattedTime,
       totalPomodoros,
-      totalMinutes,
+      totalSeconds,
       startTimer,
       pauseTimer,
       finishTimer,

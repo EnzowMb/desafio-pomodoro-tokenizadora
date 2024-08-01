@@ -28,9 +28,6 @@
       <div class="control column is-8">
         <button class="button is-light">
           <span>{{ isEditing ? 'Atualizar Tarefa' : 'Adicionar Tarefa' }}</span>
-          <span class="icon">
-            <i class="fa-solid fa-arrow-right"></i>
-          </span>
         </button>
         <button 
           v-if="isEditing" 
@@ -62,8 +59,11 @@
           <td>
             <h1>{{ task.completed ? 'Finalizada' : 'Não finalizada' }}</h1>
           </td>
-          <td>
-            <Timer :taskId="task.id" :onTaskFinished="fetchTasks" />
+          <td class="has-text-centered" >
+            <span class="subtitle is-4" v-if="task.completed">
+              {{ formatTime(task.totalTime) }} <i class="fa-regular fa-clock"></i>
+            </span>
+            <Timer v-else :taskId="task.id" :onTaskFinished="fetchTasks" />
           </td>
           <td class="buttons">
             <button
@@ -100,6 +100,7 @@ interface Task {
   id: number;
   title: string;
   description: string;
+  totalTime: number;
   pomodoroCount: number;
   completed: boolean;
   createdAt: Date;
@@ -195,12 +196,21 @@ export default defineComponent({
       fetchTasks();
     });
 
+    function formatTime(seconds: number): string {
+      const hours = Math.floor(seconds / 3600).toString().padStart(2, '0');
+      const minutes = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+      const secs = (seconds % 60).toString().padStart(2, '0');
+      return `${hours}:${minutes}:${secs}`;
+    }
+
+
     return {
       tasks,
       title,
       description,
       isEditing,
       taskToEdit,
+      formatTime,
       addTask,
       updateTask,
       deleteTask,

@@ -13,6 +13,7 @@ export class TasksService implements TasksRepository {
       data: {
         title: task.title,
         description: task.description,
+        totalTime: task.totalTime,
         completed: task.completed,
         createdAt: task.createdAt,
         pomodoroCount: task.pomodoroCount,
@@ -21,6 +22,7 @@ export class TasksService implements TasksRepository {
         id: true,
         title: true,
         description: true,
+        totalTime: true,
         completed: true,
         createdAt: true,
         pomodoroCount: true,
@@ -48,6 +50,7 @@ export class TasksService implements TasksRepository {
       data: {
         title: updateTaskDto.title,
         description: updateTaskDto.description,
+        totalTime: updateTaskDto.totalTime,
         completed: updateTaskDto.completed,
         createdAt: updateTaskDto.createdAt,
         pomodoroCount: updateTaskDto.pomodoroCount,
@@ -56,6 +59,7 @@ export class TasksService implements TasksRepository {
         id: true,
         title: true,
         description: true,
+        totalTime: true,
         completed: true,
         createdAt: true,
         pomodoroCount: true,
