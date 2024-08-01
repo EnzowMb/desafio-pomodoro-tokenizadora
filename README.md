@@ -196,6 +196,8 @@ Segue em anexo um arquivo para testes:
 
 - Utilizei o Prisma porque já sei como funciona, mas estudei e pesquisei nos ultimos dias e o TypeORM parece se encaixar melhor para NestJS
 
+- Adicionar responsividade
+
 ## 👥 Autor
 
 - **Enzo Martinelli**
@@ -399,6 +401,8 @@ Attached is a file for testing:
 #### Possible Improvements and Learnings
 
 - I used Prisma because I'm familiar with it, but after studying and researching in recent days, TypeORM seems to be a better fit for NestJS.
+
+- Add responsiveness
     
 ## 👥 Author
 
