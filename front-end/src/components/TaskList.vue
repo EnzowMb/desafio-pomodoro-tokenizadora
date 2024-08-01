@@ -117,8 +117,11 @@ export default defineComponent({
     const taskToEdit = ref<Task | null>(null);
 
     const fetchTasks = async () => {
-      const response = await axios.get("http://localhost:3000/tasks");
-      tasks.value = response.data;
+      await axios.get("http://localhost:3000/tasks").then((response) => {
+        tasks.value = response.data;
+      }).catch((e) => {
+        alert('Erro ao carregar as tarefas: ' + e);
+      });
     };
 
     const addTask = async () => {
@@ -131,7 +134,9 @@ export default defineComponent({
         pomodoroCount: 0,
       };
 
-      await axios.post("http://localhost:3000/tasks", task);
+      await axios.post("http://localhost:3000/tasks", task).catch((e) => {
+        alert('Erro ao adicionar tarefa: ' + e);
+      });
       fetchTasks();
       resetForm();
     };
@@ -145,13 +150,17 @@ export default defineComponent({
         description: description.value,
       };
 
-      await axios.put(`http://localhost:3000/tasks/${id}`, updatedTask);
+      await axios.put(`http://localhost:3000/tasks/${id}`, updatedTask).catch((e) => {
+        alert('Erro ao atualizar tarefa: ' + e);
+      });
       fetchTasks();
       resetForm();
     };
 
     const deleteTask = async (id: number) => {
-      await axios.delete(`http://localhost:3000/tasks/${id}`);
+      await axios.delete(`http://localhost:3000/tasks/${id}`).catch((e) => {
+        alert('Erro ao deletar tarefa: ' + e);
+      });
       fetchTasks();
     };
 
