@@ -1,18 +1,8 @@
 :root {
-  --ochre: #d1451e;
-
   --background-primary: #f0633c;
   --background-secondary: #3d6d4a;
 
-  --light-coral: #ffdbd1;
-
   --font-color: #fffaf3;
-
-  --dark-green: #263a29;
-
-  --gray: #444444;
-  --light-gray: #efefef;
-  --white: #fff;
 
   --title-font-size: 3rem;
   --default-font-family: Nunito Sans, sans-serif;
@@ -21,6 +11,7 @@
 body {
   min-height: 100vh;
   color: var(--font-color);
+  background: var(--background-primary);
   font-family: var(--default-font-family);
   font-size: 16px;
   font-weight: 400;
