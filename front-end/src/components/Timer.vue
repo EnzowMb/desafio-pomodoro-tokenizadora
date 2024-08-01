@@ -51,18 +51,11 @@ export default defineComponent({
     const minutes = ref(0);
     const seconds = ref(0);
     const totalTime = ref(0);
-    const pomodoroTime = 0.25 * 60; // 15 segundos
-    const shortBreakTime = 0.1 * 60; // 6 segundos
-    const longBreakTime = 0.25 * 60; // 15 segundos
+    const pomodoroTime = 25 * 60;
+    const shortBreakTime = 5 * 60;
+    const longBreakTime = 15 * 60;
     let pomodoroCount = ref(0);
     let interval: number | undefined;
-
-    const iconVisible = ref({
-      start: false,
-      half: false,
-      end: false,
-      full: false,
-    } as { [key: string]: boolean });
 
     const formattedTime = computed(() => {
       const pad = (num: number) => String(num).padStart(2, '0');
@@ -73,26 +66,8 @@ export default defineComponent({
       return pomodoroCount.value;
     });
 
-    const showIcons = () => {
-      iconVisible.value = { start: false, half: false, end: false, full: false }; // Resetar ícones
-
-      const icons = ['start', 'half', 'end', 'full'];
-      let index = 0;
-
-      const interval = setInterval(() => {
-        if (index < icons.length) {
-          iconVisible.value[icons[index]] = true;
-          index++;
-        } else {
-          clearInterval(interval);
-        }
-      }, 1000);
-    };
-
     const startTimer = () => {
       if (interval) return;
-
-      showIcons();
 
       interval = setInterval(() => {
         seconds.value++;
@@ -117,11 +92,11 @@ export default defineComponent({
     };
 
     const finishTimer = async () => {
-      console.log(pomodoroCount.value)
-
       await axios.put(`http://localhost:3000/tasks/${props.taskId}`, {
         pomodoroCount: pomodoroCount.value,
         completed: true,
+      }).catch((e) => {
+        alert('Erro ao finalizar tarefa: ' + e);
       });
 
       pauseTimer();
