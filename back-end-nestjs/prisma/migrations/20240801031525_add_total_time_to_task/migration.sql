@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Task" ADD COLUMN     "totalTime" INTEGER NOT NULL DEFAULT 0;
