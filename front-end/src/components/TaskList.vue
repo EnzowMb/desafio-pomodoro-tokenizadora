@@ -28,9 +28,6 @@
       <div class="control column is-8">
         <button class="button is-light">
           <span>{{ isEditing ? 'Atualizar Tarefa' : 'Adicionar Tarefa' }}</span>
-          <span class="icon">
-            <i class="fa-solid fa-arrow-right"></i>
-          </span>
         </button>
         <button 
           v-if="isEditing" 
@@ -63,7 +60,8 @@
             <h1>{{ task.completed ? 'Finalizada' : 'Não finalizada' }}</h1>
           </td>
           <td>
-            <Timer :taskId="task.id" :onTaskFinished="fetchTasks" />
+            <span v-if="task.completed">{{ task.totalTime }}</span>
+            <Timer v-else :taskId="task.id" :onTaskFinished="fetchTasks" />
           </td>
           <td class="buttons">
             <button
@@ -100,6 +98,7 @@ interface Task {
   id: number;
   title: string;
   description: string;
+  totalTime: number;
   pomodoroCount: number;
   completed: boolean;
   createdAt: Date;
