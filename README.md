@@ -31,6 +31,14 @@ Prisma
 
 [![My Skills](https://skillicons.dev/icons?i=prisma)](https://skillicons.dev)
 
+Frontend:
+```bash
+Vue.js
+Typescript
+```
+
+[![My Skills](https://skillicons.dev/icons?i=vue,typescript)](https://skillicons.dev)
+
 ## Rodando a aplicação
 
 Requisitos:
@@ -108,10 +116,28 @@ git clone https://github.com/EnzowMb/desafio-pomodoro-tokenizadora.git
 
 Para testar as rotas, recomendo o Postman!
 
+[![My Skills](https://skillicons.dev/icons?i=postman)](https://skillicons.dev)
+
 Segue em anexo um arquivo para testes:
+[POMODORO TASKS.postman_collection.json](https://github.com/user-attachments/files/16449095/POMODORO.TASKS.postman_collection.json)
 
 ### Parte 3 - Rodando o Front-end
 
+- Abra o terminal:
+  - Caminhe para a pasta front-end:
+    ```
+    cd .\front-end\
+    ```
+  - Execute o comando para instalar as dependencias:
+    ```
+    npm install
+    ```
+  - Execute o seguinte comando para rodar a aplicação:
+    ```
+    npm run dev
+    ```
+  - Abra no localhost de porta 5173: http://localhost:5173
+    
 ## 👥 Autor
 
 - **Enzo Martinelli**
