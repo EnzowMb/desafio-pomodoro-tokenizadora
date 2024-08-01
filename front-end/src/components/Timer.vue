@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { ref, computed, defineComponent, type PropType } from 'vue';
-import axios from "axios";
+import { updateTaskPomodoro } from '../service/taskService.ts';
 
 export default defineComponent({
   name: 'PomodoroTimer',
@@ -92,13 +92,15 @@ export default defineComponent({
     };
 
     const finishTimer = async () => {
-      await axios.put(`http://localhost:3000/tasks/${props.taskId}`, {
-        pomodoroCount: pomodoroCount.value,
-        completed: true,
-        totalTime: totalSeconds.value,
-      }).catch((e) => {
-        alert('Erro ao finalizar tarefa: ' + e);
-      });
+      try {
+        await updateTaskPomodoro(props.taskId, {
+          pomodoroCount: pomodoroCount.value,
+          completed: true,
+          totalTime: totalSeconds.value,
+        });
+      } catch (error) {
+        alert(error.message);
+      }
 
       pauseTimer();
       hours.value = 0;

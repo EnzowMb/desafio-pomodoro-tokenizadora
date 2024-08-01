@@ -63,7 +63,7 @@
             <span class="subtitle is-4" v-if="task.completed">
               {{ formatTime(task.totalTime) }} <i class="fa-regular fa-clock"></i>
             </span>
-            <Timer v-else :taskId="task.id" :onTaskFinished="fetchTasks" />
+            <Timer v-else :taskId="task.id" :onTaskFinished="loadTasks" />
           </td>
           <td class="buttons">
             <button
@@ -77,7 +77,7 @@
             </button>
             <button
               class="button is-small is-danger mt-3"
-              @click="deleteTask(task.id)"
+              @click="handleDeleteTask(task.id)"
             >
               <span class="icon">
                 <i class="fa-solid fa-trash"></i>
@@ -94,17 +94,8 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
 import Timer from './Timer.vue';
-import axios from "axios";
-
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  totalTime: number;
-  pomodoroCount: number;
-  completed: boolean;
-  createdAt: Date;
-}
+import { fetchTasks, addTask, updateTask, deleteTask } from '../service/taskService.ts';
+import type { Task } from '../types/task.ts';
 
 export default defineComponent({
   components: {
@@ -117,15 +108,15 @@ export default defineComponent({
     const isEditing = ref(false);
     const taskToEdit = ref<Task | null>(null);
 
-    const fetchTasks = async () => {
-      await axios.get("http://localhost:3000/tasks").then((response) => {
-        tasks.value = response.data;
-      }).catch((e) => {
-        alert('Erro ao carregar as tarefas: ' + e);
-      });
+    const loadTasks = async () => {
+      try {
+        tasks.value = await fetchTasks();
+      } catch (error) {
+        alert(error.message);
+      }
     };
 
-    const addTask = async () => {
+    const handleAddTask = async () => {
       const currentDate = new Date().toISOString();
       const task = {
         title: title.value,
@@ -135,14 +126,16 @@ export default defineComponent({
         pomodoroCount: 0,
       };
 
-      await axios.post("http://localhost:3000/tasks", task).catch((e) => {
-        alert('Erro ao adicionar tarefa: ' + e);
-      });
-      fetchTasks();
-      resetForm();
+      try {
+        await addTask(task);
+        await loadTasks();
+        resetForm();
+      } catch (error) {
+        alert(error.message);
+      }
     };
 
-    const updateTask = async (id: number | undefined) => {
+    const handleUpdateTask = async (id: number | undefined) => {
       if (id === undefined) return;
 
       const updatedTask = {
@@ -151,18 +144,22 @@ export default defineComponent({
         description: description.value,
       };
 
-      await axios.put(`http://localhost:3000/tasks/${id}`, updatedTask).catch((e) => {
-        alert('Erro ao atualizar tarefa: ' + e);
-      });
-      fetchTasks();
-      resetForm();
+      try {
+        await updateTask(id, updatedTask);
+        await loadTasks();
+        resetForm();
+      } catch (error) {
+        alert(error.message);
+      }
     };
 
-    const deleteTask = async (id: number) => {
-      await axios.delete(`http://localhost:3000/tasks/${id}`).catch((e) => {
-        alert('Erro ao deletar tarefa: ' + e);
-      });
-      fetchTasks();
+    const handleDeleteTask = async (id: number) => {
+      try {
+        await deleteTask(id);
+        await loadTasks();
+      } catch (error) {
+        alert(error.message);
+      }
     };
 
     const editTask = (task: Task) => {
@@ -181,9 +178,9 @@ export default defineComponent({
 
     const submitForm = () => {
       if (isEditing.value && taskToEdit.value) {
-        updateTask(taskToEdit.value.id);
+        handleUpdateTask(taskToEdit.value.id);
       } else {
-        addTask();
+        handleAddTask();
       }
     };
 
@@ -193,7 +190,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      fetchTasks();
+      loadTasks();
     });
 
     function formatTime(seconds: number): string {
@@ -203,7 +200,6 @@ export default defineComponent({
       return `${hours}:${minutes}:${secs}`;
     }
 
-
     return {
       tasks,
       title,
@@ -211,13 +207,13 @@ export default defineComponent({
       isEditing,
       taskToEdit,
       formatTime,
-      addTask,
-      updateTask,
-      deleteTask,
+      handleAddTask,
+      handleUpdateTask,
+      handleDeleteTask,
       editTask,
       resetForm,
       submitForm,
-      fetchTasks,
+      loadTasks,
       wrapText,
     };
   },
