@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateTaskDto {
   id: number;
@@ -9,6 +15,10 @@ export class CreateTaskDto {
   @IsString()
   @IsOptional()
   description: string | null;
+
+  @IsInt()
+  @IsNotEmpty({ message: 'The field totalTime must not be empty' })
+  totalTime: number;
 
   @IsNotEmpty({ message: 'The field completed must not be empty' })
   completed: boolean;
