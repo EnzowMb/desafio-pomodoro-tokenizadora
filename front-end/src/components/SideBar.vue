@@ -1,11 +1,11 @@
 <template>
-    <header>
-        <h1>
-            Pomodoro timer
-          <img src="../assets/images/pomodoro-timer.svg" alt="Pomodoro Logo">  
-        </h1>
-    </header>
-  </template>
+  <header class="p-1 is-flex is-flex-direction-column is-align-items-center">
+    <h1 class="title is-flex is-flex-direction-column is-4 has-text-centered p-4">
+      Pomodoro Timer
+      <img src="../assets/images/pomodoro-timer.svg" alt="Pomodoro Logo" class="mt-4">
+    </h1>
+  </header>
+</template>
   
   <script lang="ts">
   import { defineComponent } from 'vue'
@@ -16,26 +16,11 @@
   </script>
   
   <style scoped>
-  header {
-    padding: 1rem;
-    width: 100%;
-    height: 100%;
-  }
   h1 {
     background-color: var(--background-secondary);
-    padding: 1.8rem;
-    border: solid 2px;
+    border: 2px solid;
     border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
     gap: 2rem;
     font-size: var(--title-font-size)
-  }
-  @media only screen and (max-width: 768px) {
-    header {
-      padding: 2.5rem;
-      height: auto;
-    }
   }
   </style>
