@@ -41,7 +41,7 @@ Typescript
 
 [![My Skills](https://skillicons.dev/icons?i=vue,typescript)](https://skillicons.dev)
 
-## Rodando a aplicação
+## ⚙ Rodando a aplicação
 
 Requisitos:
   - Docker Desktop
@@ -49,7 +49,7 @@ Requisitos:
   - IDE de sua preferencia(recomendação: VS Code)
   - Node
 
-### Parte 1 - Cloando a aplicação e executando o Banco de Dados
+### 💾 Parte 1 - Cloando a aplicação e executando o Banco de Dados
 
 - Primeiro clone este repositorio:
 ```
@@ -81,7 +81,7 @@ git clone https://github.com/EnzowMb/desafio-pomodoro-tokenizadora.git
 
 ![image](https://github.com/user-attachments/assets/131b69b4-34b6-4b23-9c19-d89069d08123)
 
-### Parte 2 - Rodando o Back-end
+### 🔌 Parte 2 - Rodando o Back-end
 
 - Abra o terminal:
   - Caminhe para a pasta back-end-nestjs:
@@ -123,7 +123,7 @@ Para testar as rotas, recomendo o Postman!
 Segue em anexo um arquivo para testes:
 [POMODORO TASKS.postman_collection.json](https://github.com/user-attachments/files/16450128/POMODORO.TASKS.postman_collection.json)
 
-### Parte 3 - Rodando o Front-end
+### 💻 Parte 3 - Rodando o Front-end
 
 - Abra o terminal:
   - Caminhe para a pasta front-end:
@@ -191,7 +191,7 @@ Typescript
 
 [![My Skills](https://skillicons.dev/icons?i=vue,typescript)](https://skillicons.dev)
 
-## Running the Application
+## ⚙ Running the Application
 
 Requirements:
 - Docker Desktop
@@ -199,7 +199,7 @@ Requirements:
 - IDE of your choice (recommended: VS Code)
 - Node
 
-### Part 1 - Cloning the Application and Running the Database
+### 💾 Part 1 - Cloning the Application and Running the Database
 
 - First, clone this repository:
 ```
@@ -231,7 +231,7 @@ git clone https://github.com/EnzowMb/desafio-pomodoro-tokenizadora.git
 
 ![image](https://github.com/user-attachments/assets/131b69b4-34b6-4b23-9c19-d89069d08123)
 
-### Part 2 - Running the Back-end
+### 🔌 Part 2 - Running the Back-end
 
 - Open the terminal:
   - Navigate to the back-end-nestjs folder:
@@ -273,7 +273,7 @@ To test the routes, I recommend using Postman!
 Attached is a file for testing:
 [POMODORO TASKS.postman_collection.json](https://github.com/user-attachments/files/16450128/POMODORO.TASKS.postman_collection.json)
 
-### Part 3 - Running the Front-end
+### 💻 Part 3 - Running the Front-end
 
 - Open the terminal:
   - Navigate to the front-end folder:
