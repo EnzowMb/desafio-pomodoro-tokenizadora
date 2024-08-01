@@ -83,7 +83,7 @@ git clone https://github.com/EnzowMb/desafio-pomodoro-tokenizadora.git
 
 ### 🔌 Parte 2 - Rodando o Back-end
 
-- Abra o terminal:
+- Abra um novo terminal:
   - Caminhe para a pasta back-end-nestjs:
     ```
     cd .\back-end-nestjs\
@@ -125,7 +125,7 @@ Segue em anexo um arquivo para testes:
 
 ### 💻 Parte 3 - Rodando o Front-end
 
-- Abra o terminal:
+- Abra um novo terminal:
   - Caminhe para a pasta front-end:
     ```
     cd .\front-end\
@@ -233,7 +233,7 @@ git clone https://github.com/EnzowMb/desafio-pomodoro-tokenizadora.git
 
 ### 🔌 Part 2 - Running the Back-end
 
-- Open the terminal:
+- Open a new terminal:
   - Navigate to the back-end-nestjs folder:
     ```
     cd .\back-end-nestjs\
@@ -275,7 +275,7 @@ Attached is a file for testing:
 
 ### 💻 Part 3 - Running the Front-end
 
-- Open the terminal:
+- Open a new terminal:
   - Navigate to the front-end folder:
     ```
     cd .\front-end\
