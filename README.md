@@ -174,7 +174,7 @@ Segue em anexo um arquivo para testes:
 
 🎉 Front-end rodando!
 
-### RESULTADO FINAL
+### 📦 RESULTADO FINAL
 
 - Pagina Principal
 
@@ -378,7 +378,7 @@ Attached is a file for testing:
 
 🎉 Front-end running!
 
-### FINAL RESULT
+### 📦 FINAL RESULT
 
 - Main Page
 
